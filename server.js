@@ -1,5 +1,3 @@
-// https://www.mapillary.com/connect?client_id=Z0l2SnYzeXRIRDBpeC1xUWNTYTdqQTpiMzFiNTBiMWFkNWJkOWVl&response_type=token&scope=user:email%20org:read&redirect_uri=http:%2F%2Fexample.com`
-
 var http = require('http');
 var path = require('path');
 
