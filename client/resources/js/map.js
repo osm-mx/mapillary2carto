@@ -22,9 +22,6 @@ function addMplData(featureCollection, clearLayers=false){
 
         mapData.imagesAlone.push(feature);
     }
-
-
-
 }
 
 
@@ -38,6 +35,10 @@ function clearImageLayer(){
 
 
 window.initMap = function(idMap){
+    var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    });
+
     var mapboxTiles = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/streets-v8/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaW1sZW8iLCJhIjoiT0tfdlBSVSJ9.Qqzb4uGRSDRSGqZlV6koGg",{
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Tiles thanks to © <a href="http://mapbox.com">Mapbox</a>'
     });
@@ -45,7 +46,7 @@ window.initMap = function(idMap){
     map = L.map(idMap, {
         center: [0, 0],
         zoom: 3,
-        layers: [mapboxTiles]
+        layers: [osm]
     });
 
     buttonBuild = L.easyButton('<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Mapillary_logo.svg" width="18"/>', window.buildViewer).addTo( map );
@@ -76,7 +77,7 @@ window.initMap = function(idMap){
 
     map.addControl(sidebar);
 
-    window.layerControl = L.control.groupedLayers({"Mapbox": mapboxTiles}, {}, {collapsed: false});
+    window.layerControl = L.control.groupedLayers({"OSM": osm, "Mapbox": mapboxTiles}, {}, {collapsed: false});
     window.layerControl.addTo(map);
 
     linestringLayer = L.layerGroup().addTo(map);
@@ -86,6 +87,12 @@ window.initMap = function(idMap){
 
     buttonPlay.disable();
     buttonStop.disable();
+
+    // search
+    var geosearchControl = new L.Control.GeoSearch({
+        provider: new L.GeoSearch.Provider.OpenStreetMap(),
+        showMarker: false
+    }).addTo(map);
 };
 
 

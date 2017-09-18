@@ -110,6 +110,7 @@ $(function(){
 
     $("#formGeoSearch").submit(function(event){
         event.preventDefault();
+        sidebar.close();
 
         if($("#geoSearchDate").val()==""){
             startDate = null;
