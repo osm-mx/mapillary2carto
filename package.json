@@ -1,0 +1,25 @@
+{
+  "name": "mapillary2carto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "async": "^0.2.10",
+    "socket.io": "^0.9.17",
+    "express": "^3.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leodc/mapillary2carto.git"
+  },
+  "author": "Leo Castañeda <leodcastaneda@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leodc/mapillary2carto/issues"
+  },
+  "homepage": "https://github.com/leodc/mapillary2carto#readme"
+}

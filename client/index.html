@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <title>mapillary2carto</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+        <!-- Leaflet -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+        <link rel="stylesheet" href="resources/plugins/leaflet-sidebar/L.Control.Sidebar.css" />
+        <link rel="stylesheet" href="resources/plugins/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.css">
+
+        <!-- Mapillary viewer -->
+        <link href='https://unpkg.com/mapillary-js@2.6.0/dist/mapillary.min.css' rel='stylesheet' />
+
+        <!-- Include Date Range Picker -->
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+        <link rel="stylesheet" href="resources/css/app.css" />
+    </head>
+
+    <body>
+        <div id="sidebar" class="sidebar collapsed">
+            <!-- Nav tabs -->
+            <div class="sidebar-tabs">
+                <ul role="tablist">
+                    <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                    <li><a href="#profile" role="tab"><i class="fa fa-users"></i></a></li>
+                    <li><a href="#geoSearch" role="tab"><i class="fa fa-map-marker"></i></a></li>
+                    <!--
+                    <li><a href="#privateProfile" role="tab"><i class="fa fa-user"></i></a></li>
+                    -->
+                    <li><a href="#export" role="tab"><i class="fa fa-arrow-right"></i></a></li>
+
+                </ul>
+
+                <ul role="tablist">
+                    <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
+                </ul>
+            </div>
+
+            <!-- Tab panes -->
+            <div class="sidebar-content">
+
+                <!-- home -->
+                <div class="sidebar-pane" id="home">
+                    <h1 class="sidebar-header">
+                        Mapillary -> CARTO
+                        <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                    </h1>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                </div>
+
+
+                <!-- public information -->
+                <div class="sidebar-pane" id="profile">
+                    <h1 class="sidebar-header">Datos de usuario<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+
+                    <form id="formSearchUser">
+                        <div class="form-group">
+                            <label for="username">Nombre de usuario de Mapillary:</label>
+                            <input placeholder="Ej. mapeaton" type="text" class="form-control" id="username" required autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateSearch">Rango de fechas:</label>
+                            <input value="" type="text" class="form-control dateSearch" id="dateSearch" >
+                        </div>
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="addResultsToMap">Agregar resultados al mapa.</label>
+                            </div>
+                        </div>
+                        <button class="btn btn-default pull-right" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Buscando" id="buttonSearchUserFeed">Buscar</button>
+                    </form>
+
+                    <div class="clearfix"></div>
+
+                    <div class="panel panel-primary feedResults" id="feedResults" style="margin-top:10px;">
+                        <div id="resultTitle" class="panel-heading"></div>
+                        <div class="panel-body">
+                            <div id="accordionResult" class="panel-group"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- geosearch -->
+                <div class="sidebar-pane" id="geoSearch">
+                    <h1 class="sidebar-header">Busqueda geografica<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+
+                    <form id="formGeoSearch">
+                        <p>
+                            Este proceso buscará toda la información contenida en la vista del mapa y la agregara automaticamente a la vista.
+                        </p>
+
+                        <div class="form-group">
+                            <label for="geoSearchDate">Rango de fechas:</label>
+                            <input value="" type="text" class="form-control dateSearch" id="geoSearchDate" >
+                        </div>
+
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-link" onclick="clearImageLayer()">Limpiar layer</button>
+                            <button type="submit" class="btn btn-default" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Buscando" id="buttonGeoSearch">Buscar</button>
+                        </div>
+                    </form>
+
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <!-- export -->
+                <div class="sidebar-pane" id="export">
+                    <h1 class="sidebar-header">Exportar a CARTO<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                    <p>
+                        Este proceso creara una nueva tabla o actualizará una existente en tu cuenta de CARTO, los datos se introduciran en orden cronológico.
+                    </p>
+
+                    <form id="formExportData">
+                        <div class="form-group">
+                            <label for="cartoUsername">Nombre de usuario en CARTO:</label>
+                            <input placeholder="username" type="text" class="form-control" id="cartoUsername" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cartoApiKey">API Key:</label>
+                            <input placeholder="8lcfbsad8a6045c4315c9dbc6fbc10c8126aa70f" type="text" class="form-control" id="cartoApiKey" required>
+                            <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#modalApiKey">Como obtener tu API key</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newTableName">Nombre de la tabla:</label>
+                            <input placeholder="puntos_interes" type="text" class="form-control" id="newTableName" required>
+                        </div>
+
+                        <button class="btn btn-default pull-right">Exportar</button>
+                    </form>
+
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="map" class="sidebar-map"></div>
+
+
+        <!-- dialog api -->
+        <div id="modalApiKey" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">API Key</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ingresa a tu cuenta en <a href="https://carto.com/login" target="_blank">CARTO</a> y accede a tu <b>dashboard</b>.</p>
+
+                        <p>
+                            Da clic sobre tu foto para abrir el menu de tu perfil y selecciona "Your API Keys":
+                            <img class="img-responsive" src="https://carto.com/docs/img/layout/carto-editor/your-account/access_account_options.b72bf842.jpg">
+                        </p>
+
+                        <p>
+                            En la siguiente pagina podras consultar tu API Key y si lo deseas podras pedir una nueva y dejar obsoleta la actual.
+                            <img class="img-responsive" src="https://carto.com/docs/img/layout/carto-editor/your-account/apikey.4a43ded8.jpg">
+
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+
+        <!-- Moment -->
+        <script src="resources/plugins/moment.js"></script>
+
+        <!-- Leaflet -->
+        <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+        <script src="resources/plugins/leaflet-sidebar/L.Control.Sidebar.js"></script>
+        <script src="resources/plugins/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.min.js"></script>
+        <script src="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.js"></script>
+
+        <!-- Mapillary viewer -->
+        <script src='https://unpkg.com/mapillary-js@2.6.0/dist/mapillary.min.js'></script>
+
+        <!-- Include Date Range Picker -->
+        <script src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+        <script src="resources/js/map.js"></script>
+        <script src="resources/js/mpl.js"></script>
+        <script src="resources/js/carto.js"></script>
+        <script src="resources/js/app.js"></script>
+    </body>
+</html>
