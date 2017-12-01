@@ -158,7 +158,7 @@ window.exportData = function(newTableName, username, api_key){
     var base_url = "https://" + username + ".carto.com/api/v2/sql?api_key=" + api_key + "&";
 
     // create table
-    var query = "q=CREATE TABLE " + newTableName + "(\"user\" text, \"picture\" text, \"comment\" text, \"sequence_created_at\" date, \"sequence_captured_at\" date)";
+    var query = "q=CREATE TABLE " + newTableName + "(\"user\" text, \"image\" text, \"comment\" text, \"image_key\" text, \"sequence_link\" text, \"sequence_created_at\" date, \"sequence_captured_at\" date)";
 
     $.post( base_url + query).done(function(){
         query = "q=SELECT cdb_cartodbfytable('" + newTableName + "')";

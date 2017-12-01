@@ -72,7 +72,7 @@ function insertRecursive(array_calls, index, carto_api){
         return;
     }
 
-    var query = "q=INSERT INTO " + array_calls[index].newTableName + "(\"user\", \"picture\", \"comment\", \"sequence_created_at\", \"sequence_captured_at\", \"the_geom\") VALUES ('"+ array_calls[index].user +"','https://d1cuyjsrcm0gby.cloudfront.net/"+ array_calls[index].imageKey +"/thumb-320.jpg','"+ array_calls[index].comment +"','"+ array_calls[index].created_at +"', '"+ array_calls[index].captured_at +"', ST_SetSRID(ST_Point(" + array_calls[index].latLng.lng + "," + array_calls[index].latLng.lat + "),4326))";
+    var query = "q=INSERT INTO " + array_calls[index].newTableName + "(\"user\", \"image\", \"comment\", \"image_key\", \"sequence_link\", \"sequence_created_at\", \"sequence_captured_at\", \"the_geom\") VALUES ('"+ array_calls[index].user +"','https://d1cuyjsrcm0gby.cloudfront.net/"+ array_calls[index].imageKey +"/thumb-1024.jpg','" + array_calls[index].comment + "','" + array_calls[index].imageKey + "','http://mapillary.com/map/im/" + array_calls[index].imageKey + "','"+ array_calls[index].created_at +"', '"+ array_calls[index].captured_at +"', ST_SetSRID(ST_Point(" + array_calls[index].latLng.lng + "," + array_calls[index].latLng.lat + "),4326))";
 
     $.post(carto_api + query).done(function(data){
 
