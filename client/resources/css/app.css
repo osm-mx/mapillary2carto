@@ -1,16 +1,21 @@
 .sidebar-header{
     margin-bottom: 10px;
 }
+
 body, html, #map{
     width:100%;
     height:100%;
     position: absolute;
-    
+
 }
 
-#mly { 
-    height: 100%; 
+#mly {
+    height: 100%;
     width: 70%;
     position: absolute;
     right: 0;
+}
+
+.sidebar-tabs li{
+  overflow: visible !important;
 }
